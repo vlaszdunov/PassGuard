@@ -1,6 +1,4 @@
-import pickle
-from Pass import Password
-from Pass import CreatePass
+from Password import Password
+from Database import DataBase
+import json
 
-a = Password(1, 2, 3, 4)
-print(a.Value)

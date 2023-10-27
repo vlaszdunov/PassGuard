@@ -1,6 +1,3 @@
-import getpass
-
-CurrentUser = getpass.getuser()
+CurrentUser = 'a'
 AllowSpecSymbols = False
 PassLength = 10
-ttttt=10

@@ -6,7 +6,13 @@ else:
     alphabet = consts.Alphabet
 
 
-class Pass:
+class Password:
+    """Основной класс программы.
+
+
+    Attributes:
+        Id(int): номер записи по порядку.
+    """
 
     Id = 0
     Login = ''
@@ -14,14 +20,22 @@ class Pass:
     Site = ''
     Comment = ''
 
-    def __init__(self, id: int, password: str, login: str, site: str, comment: str):
-        self.Id = id
-        self.Value = password
+    def __init__(self, id: int, password: str, login: str, site: str, comment: str) -> None:
+        """
+        aaaaa
+
+        Args:
+            Id(int): номер записи по порядку
+        """
+
+        self.Id = int(id)
+        self.Value = str(password)
         self.Login = str(login)
         self.Site = str(site)
         self.Comment = str(comment)
 
-    def _generate_password(self):
+    @staticmethod
+    def generate_password():
         NewPassword = ''
         for i in range(vars.PassLength):
             NewPassword += alphabet.pop()
@@ -35,6 +49,11 @@ class Pass:
             alphabet.add(self.Value[-1])
 
     def ChangeLogin(self, login: str):
+        """test help
+
+        Args:
+            login(str): новый логин
+        """
         self.Login = login
 
     def ChangeSite(self, site: str):
