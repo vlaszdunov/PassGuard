@@ -1,63 +1,75 @@
 from Password import Password
 from Database import DataBase
 import cutie
-
+import os
 
 class Application:
-    
+
     MainMenuButtons = ['Показать пароли', 'Экспортировать пароли',
-                       'Создать пароль', 'Добавить запись']
+                       'Сгенерировать пароль', 'Добавить запись', 'Выйти']
     """Кнопки в главном меню"""
-    PasswordMEnuButtons = ['Изменить пароль', 'Изменить сайт',
+
+    DataMenuButtons = ['Изменить пароль', 'Изменить сайт',
                            'Изменить логин', 'Изменить комментарий', 'Удалить', 'Назад']
     """Кнопки при открытой записи пароля"""
 
-    MenuItems = []
-    """Список записей в главном меню"""
+    SelectedMenuItem = 0
+    SelectedDataBaseItem = -1
+    Items = []
 
-    SelectedItem = 0
-    
-    def __init__(self, database) -> None:
+    @staticmethod
+    def __init__() -> None:
         print('╭'+'─'.center(60, '─')+'╮')
         print('│'+' '.center(60, ' ')+'│')
         print('│'+'PassGuard'.center(60, ' ')+'│')
         print('│'+' '.center(60, ' ')+'│')
         print('│'+'Консольный менеджер паролей'.center(60, ' ')+'│')
-        print('│'+'Храните и генерируйте случайные пароли'.center(60, ' ')+'│')
+        print('│'+'Разработал Здунов Влас. Группа 2021-ФГиИБ-ИСиТ-2б'.center(60, ' ')+'│')
         print('│'+' '.center(60, ' ')+'│')
         print('╰'+'─'.center(60, '─')+'╯')
+
+    def MainMenu():
         print('')
         print('Главное меню')
-        print('─'.center(30, '─'))
+        print('─'*30)
+        Application.SelectedMenuItem = cutie.select(
+            Application.MainMenuButtons)
 
-        for i in database.Data['Data']:
-            if len(i['Site']) < database.MaxSiteLen:
-                self.MenuItems.append(
-                    i['Site']+' '*(database.MaxSiteLen-len(i['Site']))+'     '+i['Login'])
-            else:
-                self.MenuItems.append(i['Site']+'     '+i['Login'])
+    def ShowData():
+        if len(DataBase.Data['Data'])==0:
+            print('╭'+'─'.center(40, '─')+'╮')
+            print('│'+' '.center(40, ' ')+'│')
+            print('│'+'ЗАПИСИ ОТСУТСТВУЮТ'.center(40, ' ')+'│')
+            print('│'+' '.center(40, ' ')+'│')
+            print('╰'+'─'.center(40, '─')+'╯')
+        else:
+            Application.Items=[]
+            for item in DataBase.Data['Data']:
+                Application.Items.append(
+                    item['Site']+' '*(DataBase.MaxSiteLen-len(item['Site']))+'     '+item['Login'])
 
-    def MainMenu(self, database):
-        match cutie.select(Application.MainMenuButtons):
-            case 0:
-                print('')
-                print('Сайты и логины, для которых сохранен пароль')
-                print('Сайт'+" "*(database.MaxSiteLen)+'     '+'Логин')
-                print('───────────────────────────────────────────')
-                self.SelectedItem = cutie.select(self.MenuItems)
-                return 
+            print('')
+            print('    Сайт'+' '*(DataBase.MaxSiteLen-4)+'     '+'Логин')
+            print('─'*40)
+            Application.SelectedDataBaseItem = cutie.select(Application.Items)
+    
+    def ShowDataObject():
+        Application.Items=['','','']
+        for key in DataBase.Data['Data'][Application.SelectedDataBaseItem]:
+            if key=='Site':
+                if 4<len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
+                    Application.Items[0]+=('Сайт'+' '*(len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-4)+'     ')
+            if key=='Login':
+                if 5<len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
+                    Application.Items[0]+=('Логин'+' '*(len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-5)+'     ')
+            if key=='Password':
+                if 6<len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
+                    Application.Items[0]+=('Пароль'+' '*(len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-6)+'     ')
+        Application.Items[1]='─'*len(Application.Items[0])
+        for key in DataBase.Data['Data'][Application.SelectedDataBaseItem]:
+            if key in ['Site','Login','Password']:
+                Application.Items[2]+=((DataBase.Data['Data'][Application.SelectedDataBaseItem][key]+'     '))
 
-    def ShowDatabaseItem(self, database):
         print('')
-        print('Сайт:  ',database.Data['Data'][self.SelectedItem]['Site'])
-        print('Логин: ',database.Data['Data'][self.SelectedItem]['Login'])
-        print('Пароль:',database.Data['Data'][self.SelectedItem]['Value'])
-        print('')
-        match cutie.select(Application.PasswordMEnuButtons):
-            case 0:
-               return Password._generate_password() 
-            case 5:
-                for i in range(20):
-                    print(' ')
-                return 
-                
+        for i in Application.Items:
+            print(i,end='\n')

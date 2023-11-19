@@ -1,6 +1,8 @@
 import vars
 import consts
 import json
+import os
+from random import randint
 from Password import Password
 if vars.AllowSpecSymbols == True:
     alphabet = consts.AlphabetWithSpecs
@@ -10,31 +12,37 @@ else:
 
 class DataBase:
     Data = {"Data": []}
-    MaxLoginLen=0
-    MaxSiteLen=0
+    MaxSiteLen = 4
+    FilePath = 'Data.json'
 
-    def __init__(self, FilePath) -> None:
-        file = open(FilePath, 'r')
-        self.Data = (json.loads(file.read()))
+    @staticmethod
+    def __init__() -> None:
+        file = open(DataBase.FilePath, 'r')
+        DataBase.Data = (json.loads(file.read()))
         file.close()
-        for i in self.Data['Data']:
-            if len(i['Login'])>self.MaxLoginLen:
-                self.MaxLoginLen=len(i['Login'])
-            if len(i['Site'])>self.MaxSiteLen:
-                self.MaxSiteLen=len(i['Site'])
+        for i in DataBase.Data['Data']:
+            if len(i['Site']) > DataBase.MaxSiteLen:
+                DataBase.MaxSiteLen = len(i['Site'])
 
-    def CreateDataObject(self):
-        if len(self.Data['Data']) == 0:
-            self.Data['Data'].append(Password(0,
-                                              Password._generate_password(), 'q', 'a', 'c').__dict__)
+    def CreateDataObject(newlogin, newsite):
+        if len(DataBase.Data['Data']) != 0:
+            DataBase.Data['Data'].append(Password(
+                DataBase.Data['Data'][-1]['Id']+1, Password._generate_password(), newlogin, newsite).__dict__)
         else:
-            self.Data['Data'].append(Password(self.Data['Data'][-1]['Id']+1,
-                                              Password._generate_password(), 'q', 'a', 'c').__dict__)
+            DataBase.Data['Data'].append(Password(
+                0, Password._generate_password(), newlogin, newsite).__dict__)
 
-    def ExportData(self, FilePath):
-        file = open(FilePath, 'w')
-        file.write(json.dumps(self.Data))
+        file = open(DataBase.FilePath, 'w')
+        file.write(json.dumps(DataBase.Data))
         file.close()
 
-    def DeletePassword():
-        pass
+    def ExportData():
+        file = open(r'C:\Users\socia\Downloads\ExportedData.txt', 'w')
+        file.write(json.dumps(DataBase.Data))
+        file.close()
+
+    def DeleteDataObject(data_index):
+        DataBase.Data['Data'].pop(data_index)
+        file = open(DataBase.FilePath, 'w')
+        file.write(json.dumps(DataBase.Data))
+        file.close()

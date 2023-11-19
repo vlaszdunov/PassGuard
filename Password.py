@@ -17,7 +17,7 @@ class Password:
     Attributes:
         Id (int): Уникальный идентификатор записи
         Login (str): Логин, связанный с введенным паролем
-        Value (str): Пароль пользователя
+        Password (str): Пароль пользователя
         Site (str): URL-адрес сайта, для которого сохранятеся информация
         Comment (str): Комментарий к записи
     
@@ -27,14 +27,14 @@ class Password:
 
     Id = 0
     Login = ''
-    Value = ''
+    Password = ''
     Site = ''
     Comment = ''
 
-    def __init__(self, id: int, password: str, login: str, site: str, comment: str='—') -> None:
+    def __init__(self, id: int, password: str, login: str, site: str, comment: str='-') -> None:
 
         self.Id = id
-        self.Value = str(password)
+        self.Password = str(password)
         self.Login = str(login)
         self.Site = str(site)
         self.Comment = str(comment)
@@ -51,18 +51,3 @@ class Password:
             NewPassword += alphabet.pop()
             alphabet.add(NewPassword[-1])
         return NewPassword
-
-    def ChangePassword(self) -> None:
-        self.Value = ''
-        for i in range(vars.PassLength):
-            self.Value += alphabet.pop()
-            alphabet.add(self.Value[-1])
-
-    def ChangeLogin(self, log: str) -> None:
-        self.Login = log
-
-    def ChangeSite(self, site: str) -> None:
-        self.Site = site
-
-    def ChangeComment(self, comment: str) -> None:
-        self.Comment = comment
