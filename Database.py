@@ -13,11 +13,11 @@ else:
 class DataBase:
     Data = {"Data": []}
     MaxSiteLen = 4
-    FilePath = 'Data.json'
+    File = 'Data.json'
 
     @staticmethod
     def __init__() -> None:
-        file = open(DataBase.FilePath, 'r')
+        file = open(DataBase.File, 'r')
         DataBase.Data = (json.loads(file.read()))
         file.close()
         for i in DataBase.Data['Data']:
@@ -32,9 +32,7 @@ class DataBase:
             DataBase.Data['Data'].append(Password(
                 0, Password._generate_password(), newlogin, newsite).__dict__)
 
-        file = open(DataBase.FilePath, 'w')
-        file.write(json.dumps(DataBase.Data))
-        file.close()
+        DataBase.SaveData()
 
     def ExportData():
         file = open(r'C:\Users\socia\Downloads\ExportedData.txt', 'w')
@@ -43,6 +41,9 @@ class DataBase:
 
     def DeleteDataObject(data_index):
         DataBase.Data['Data'].pop(data_index)
-        file = open(DataBase.FilePath, 'w')
+        DataBase.SaveData()
+
+    def SaveData():
+        file = open(DataBase.File, 'w')
         file.write(json.dumps(DataBase.Data))
         file.close()

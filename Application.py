@@ -3,6 +3,7 @@ from Database import DataBase
 import cutie
 import os
 
+
 class Application:
 
     MainMenuButtons = ['Показать пароли', 'Экспортировать пароли',
@@ -10,7 +11,7 @@ class Application:
     """Кнопки в главном меню"""
 
     DataMenuButtons = ['Изменить пароль', 'Изменить сайт',
-                           'Изменить логин', 'Изменить комментарий', 'Удалить', 'Назад']
+                       'Изменить логин', 'Изменить комментарий', 'Удалить', 'Назад']
     """Кнопки при открытой записи пароля"""
 
     SelectedMenuItem = 0
@@ -36,14 +37,14 @@ class Application:
             Application.MainMenuButtons)
 
     def ShowData():
-        if len(DataBase.Data['Data'])==0:
+        if len(DataBase.Data['Data']) == 0:
             print('╭'+'─'.center(40, '─')+'╮')
             print('│'+' '.center(40, ' ')+'│')
             print('│'+'ЗАПИСИ ОТСУТСТВУЮТ'.center(40, ' ')+'│')
             print('│'+' '.center(40, ' ')+'│')
             print('╰'+'─'.center(40, '─')+'╯')
         else:
-            Application.Items=[]
+            Application.Items = []
             for item in DataBase.Data['Data']:
                 Application.Items.append(
                     item['Site']+' '*(DataBase.MaxSiteLen-len(item['Site']))+'     '+item['Login'])
@@ -52,24 +53,34 @@ class Application:
             print('    Сайт'+' '*(DataBase.MaxSiteLen-4)+'     '+'Логин')
             print('─'*40)
             Application.SelectedDataBaseItem = cutie.select(Application.Items)
-    
+
     def ShowDataObject():
-        Application.Items=['','','']
+        Application.Items = ['', '', '']
         for key in DataBase.Data['Data'][Application.SelectedDataBaseItem]:
-            if key=='Site':
-                if 4<len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
-                    Application.Items[0]+=('Сайт'+' '*(len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-4)+'     ')
-            if key=='Login':
-                if 5<len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
-                    Application.Items[0]+=('Логин'+' '*(len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-5)+'     ')
-            if key=='Password':
-                if 6<len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
-                    Application.Items[0]+=('Пароль'+' '*(len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-6)+'     ')
-        Application.Items[1]='─'*len(Application.Items[0])
+            if key == 'Site':
+                if 4 < len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
+                    Application.Items[0] += ('Сайт'+' '*(
+                        len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-4))
+                else:
+                    Application.Items[0] += ('Сайт')
+            elif key == 'Login':
+                if 5 < len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
+                    Application.Items[0] += ('Логин'+' '*(
+                        len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-5)+'     ')
+                else:
+                    Application.Items[0] += ('Логин'+'     ')
+            elif key == 'Password':
+                if 6 < len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key]):
+                    Application.Items[0] += ('Пароль'+' '*(
+                        len(DataBase.Data['Data'][Application.SelectedDataBaseItem][key])-6)+'     ')
+                else:
+                    Application.Items[0] += ('Пароль'+'     ')
+        Application.Items[1] = '─'*len(Application.Items[0])
         for key in DataBase.Data['Data'][Application.SelectedDataBaseItem]:
-            if key in ['Site','Login','Password']:
-                Application.Items[2]+=((DataBase.Data['Data'][Application.SelectedDataBaseItem][key]+'     '))
+            if key in ['Site', 'Login', 'Password']:
+                Application.Items[2] += ((DataBase.Data['Data']
+                                         [Application.SelectedDataBaseItem][key]+'     '))
 
         print('')
         for i in Application.Items:
-            print(i,end='\n')
+            print(i, sep='\n')

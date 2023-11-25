@@ -24,14 +24,17 @@ while True:
                     NewSite = input('Адрес сайта: ',)
                     NewLogin = input('Логин/почта: ',)
                     DataBase.CreateDataObject(NewLogin, NewSite)
+                    DataBase.SaveData()
                 case False:
                     pass
             os.system('cls||clear')
+            
         case 3:
             os.system('cls||clear')
             NewSite = input('Адрес сайта: ',)
             NewLogin = input('Логин/почта: ',)
             DataBase.CreateDataObject(NewLogin, NewSite)
+            DataBase.SaveData()
         case 4:
             os.system('cls||clear')
             exit()
@@ -47,21 +50,36 @@ while True:
 
         match Application.SelectedMenuItem:
             case 0:
-                object_attributes = []
-                DataBase.Data['Data'][Application.SelectedDataBaseItem] = Password(DataBase.Data['Data'][Application.SelectedMenuItem]['Id'], Password._generate_password(), DataBase.Data[
-                                                                           'Data'][Application.SelectedMenuItem]['Login'], DataBase.Data['Data'][Application.SelectedMenuItem]['Site'], DataBase.Data['Data'][Application.SelectedMenuItem]['Comment']).__dict__
-                print('Новый пароль: ',DataBase.Data['Data'][Application.SelectedDataBaseItem]['Password'])
-                file = open(DataBase.FilePath, 'w')
-                file.write(json.dumps(DataBase.Data))
-                file.close()
-                os.system('cls||clear')
+                DataBase.Data['Data'][Application.SelectedDataBaseItem]['Password'] = Password._generate_password(
+                )
+                print('')
+                print(
+                    'Новый пароль: ', DataBase.Data['Data'][Application.SelectedDataBaseItem]['Password'])
+
+            case 1:
+                print('')
+                DataBase.Data['Data'][Application.SelectedDataBaseItem]['Site'] = input(
+                    'Введите новый адрес сайта: ',)
+
+            case 2:
+                print('')
+                DataBase.Data['Data'][Application.SelectedDataBaseItem]['Login'] = input(
+                    'Введите новый логин: ',)
+
+            case 3:
+                print('')
+                DataBase.Data['Data'][Application.SelectedDataBaseItem]['Login'] = input(
+                    'Введите комментарий: ',)
 
             case 4:
                 match cutie.prompt_yes_or_no('Удалить запись?', yes_text='Да, удалить', no_text='Нет, оставить', enter_empty_confirms=False, char_prompt=False):
                     case True:
                         DataBase.DeleteDataObject(
                             Application.SelectedDataBaseItem)
-                        Application.SelectedDataBaseItem = -1
                         os.system('cls||clear')
                     case False:
                         pass
+
+        Application.SelectedDataBaseItem = -1
+
+        DataBase.SaveData()
