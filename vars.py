@@ -1,3 +1,3 @@
-CurrentUser = 'a'
 AllowSpecSymbols = False
 PassLength = 10
+FirstLogin=True

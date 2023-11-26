@@ -2,7 +2,6 @@ import vars
 import consts
 import json
 import os
-from random import randint
 from Password import Password
 if vars.AllowSpecSymbols == True:
     alphabet = consts.AlphabetWithSpecs
@@ -18,7 +17,7 @@ class DataBase:
     @staticmethod
     def __init__() -> None:
         file = open(DataBase.File, 'r')
-        DataBase.Data = (json.loads(file.read()))
+        DataBase.Data = json.loads(file.read())
         file.close()
         for i in DataBase.Data['Data']:
             if len(i['Site']) > DataBase.MaxSiteLen:
@@ -35,7 +34,8 @@ class DataBase:
         DataBase.SaveData()
 
     def ExportData():
-        file = open(r'C:\Users\socia\Downloads\ExportedData.json', 'w')
+        file = open(r'C:\Users\\'+os.getlogin() +
+                    r'\Downloads\ExportedData.json', 'w')
         file.write(json.dumps(DataBase.Data))
         file.close()
         os.system('cls||clear')

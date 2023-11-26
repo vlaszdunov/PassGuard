@@ -6,6 +6,7 @@ import os
 Application()
 DataBase()
 
+
 while True:
     Application.MainMenu()
     match Application.SelectedMenuItem:
