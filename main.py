@@ -3,7 +3,6 @@ from Database import DataBase
 from Application import Application
 import cutie
 import os
-import json
 Application()
 DataBase()
 
@@ -28,7 +27,7 @@ while True:
                 case False:
                     pass
             os.system('cls||clear')
-            
+
         case 3:
             os.system('cls||clear')
             NewSite = input('Адрес сайта: ',)
@@ -50,11 +49,14 @@ while True:
 
         match Application.SelectedMenuItem:
             case 0:
+                os.system('cls||clear')
                 DataBase.Data['Data'][Application.SelectedDataBaseItem]['Password'] = Password._generate_password(
                 )
                 print('')
-                print(
-                    'Новый пароль: ', DataBase.Data['Data'][Application.SelectedDataBaseItem]['Password'])
+                print('Для учетной записи с логином', DataBase.Data['Data'][Application.SelectedDataBaseItem]
+                      ['Login'], 'на сайте', DataBase.Data['Data'][Application.SelectedDataBaseItem]['Site'])
+                print('Был создан новый пароль: ',
+                      DataBase.Data['Data'][Application.SelectedDataBaseItem]['Password'])
 
             case 1:
                 print('')
@@ -67,11 +69,6 @@ while True:
                     'Введите новый логин: ',)
 
             case 3:
-                print('')
-                DataBase.Data['Data'][Application.SelectedDataBaseItem]['Login'] = input(
-                    'Введите комментарий: ',)
-
-            case 4:
                 match cutie.prompt_yes_or_no('Удалить запись?', yes_text='Да, удалить', no_text='Нет, оставить', enter_empty_confirms=False, char_prompt=False):
                     case True:
                         DataBase.DeleteDataObject(
@@ -79,6 +76,13 @@ while True:
                         os.system('cls||clear')
                     case False:
                         pass
+
+            case 4:
+                os.system('cls||clear')
+                Application.ShowData()
+            case 5:
+                os.system('cls||clear')
+                Application.MainMenu()
 
         Application.SelectedDataBaseItem = -1
 

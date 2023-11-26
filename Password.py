@@ -19,7 +19,6 @@ class Password:
         Login (str): Логин, связанный с введенным паролем
         Password (str): Пароль пользователя
         Site (str): URL-адрес сайта, для которого сохранятеся информация
-        Comment (str): Комментарий к записи
     
     Methods:
         ChangePassword: some shit
@@ -29,15 +28,13 @@ class Password:
     Login = ''
     Password = ''
     Site = ''
-    Comment = ''
 
-    def __init__(self, id: int, password: str, login: str, site: str, comment: str='-') -> None:
+    def __init__(self, id: int, password: str, login: str, site: str) -> None:
 
         self.Id = id
         self.Password = str(password)
         self.Login = str(login)
         self.Site = str(site)
-        self.Comment = str(comment)
 
     @staticmethod
     def _generate_password() -> str:

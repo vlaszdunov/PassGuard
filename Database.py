@@ -35,9 +35,15 @@ class DataBase:
         DataBase.SaveData()
 
     def ExportData():
-        file = open(r'C:\Users\socia\Downloads\ExportedData.txt', 'w')
+        file = open(r'C:\Users\socia\Downloads\ExportedData.json', 'w')
         file.write(json.dumps(DataBase.Data))
         file.close()
+        os.system('cls||clear')
+        print('╭'+'─'.center(40, '─')+'╮')
+        print('│'+' '.center(40, ' ')+'│')
+        print('│'+'Экспортировано в Загрузки'.center(40, ' ')+'│')
+        print('│'+' '.center(40, ' ')+'│')
+        print('╰'+'─'.center(40, '─')+'╯')
 
     def DeleteDataObject(data_index):
         DataBase.Data['Data'].pop(data_index)
