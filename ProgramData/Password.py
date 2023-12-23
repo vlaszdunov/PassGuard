@@ -1,9 +1,5 @@
-"""
-Файл, хранящий класс Password
-"""
-
-import vars
 import consts
+import vars
 if vars.AllowSpecSymbols == True:
     alphabet = consts.AlphabetWithSpecs
 else:
@@ -19,22 +15,25 @@ class Password:
         Login (str): Логин, связанный с введенным паролем
         Password (str): Пароль пользователя
         Site (str): URL-адрес сайта, для которого сохранятеся информация
-    
+
     Methods:
         ChangePassword: some shit
     """
 
     Id = 0
+    Site = ''
     Login = ''
     Password = ''
-    Site = ''
 
-    def __init__(self, id: int, password: str, login: str, site: str) -> None:
-
+    def __init__(self, id: int, site: str, login: str, password: str = None) -> None:
         self.Id = id
-        self.Password = str(password)
-        self.Login = str(login)
         self.Site = str(site)
+        self.Login = str(login)
+        if password==None:
+            self.Password = Password._generate_password()
+        else:
+            self.Password = str(password)
+
 
     @staticmethod
     def _generate_password() -> str:
@@ -48,3 +47,5 @@ class Password:
             NewPassword += alphabet.pop()
             alphabet.add(NewPassword[-1])
         return NewPassword
+
+

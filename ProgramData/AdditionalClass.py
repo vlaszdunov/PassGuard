@@ -38,17 +38,20 @@ class Additional:
             (int): Индекс выбранного элемента из списка Data, включая дополнительные элементы;
         """
         Data.extend(AdditionalElements)
+        for i in range(len(NonSelectableItems)):
+            NonSelectableItems[i] = len(
+                Data)-len(AdditionalElements)+NonSelectableItems[i]
         return cutie.select(Data, caption_indices=NonSelectableItems)
 
     def CreateTable(Data: dict):
         """Создание и вывод данных в виде таблицы
-        
+
         Args:
             Data (dict): Набор данных в виде словаря
 
         Returns:
             Данные в виде таблицы
         """
-        Data = [list(Data.values())]
+        Data = [[Data.Id, Data.Site, Data.Login, Data.Password]]
         print('\n'+tabulate(Data, headers=['Id', 'Сайт',
               'Логин', 'Пароль'], tablefmt='rounded_grid')+'\n')

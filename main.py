@@ -1,11 +1,10 @@
-from Password import Password
-from Database import DataBase
-from Application import Application
+from ProgramData.Password import Password
+from ProgramData.Database import DataBase
+from ProgramData.Application import Application
 import cutie
 import os
 Application()
 DataBase()
-
 
 while True:
     Application.MainMenu()
@@ -46,7 +45,7 @@ while True:
         print('Выберите действие')
         print('─'*20)
         Application.SelectedMenuItem = cutie.select(
-            Application.DataMenuButtons)
+            Application.DataObjectMenuButtons)
 
         match Application.SelectedMenuItem:
             case 0:
