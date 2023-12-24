@@ -48,8 +48,9 @@ class DataBase:
         file.close()
 
     def DeleteDataObject(DataIndex):
-        DataBase.Data['Data'].pop(DataIndex)
+        DataBase.Data.pop(DataIndex)
         DataBase.SaveData()
+        os.system('cls||clear')
 
     def SaveData():
         file = open(r'ProgramData/Data.json', 'w')

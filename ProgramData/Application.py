@@ -15,7 +15,7 @@ class Application:
                              'Изменить логин', 'Удалить', 'Назад', 'В главное меню']
     """Кнопки при открытой записи пароля"""
 
-    DataListButton = ['', '─'*20, 'Назад']
+    DataListButton = ['', '─'*20, 'В главное меню']
     MaxSiteLen = 0
     Items = []
     SelectedDataBaseItem = -1

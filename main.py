@@ -77,5 +77,5 @@ while True:
                 Application.SelectedMenuItem=0
             case 5:
                 os.system('cls||clear')
-    else:
+    elif Application.SelectedDataBaseItem >= len(DataBase.Data):
         os.system('cls||clear')
