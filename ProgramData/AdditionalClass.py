@@ -53,5 +53,5 @@ class Additional:
             Данные в виде таблицы
         """
         Data = [[Data.Id, Data.Site, Data.Login, Data.Password]]
-        print('\n'+tabulate(Data, headers=['Id', 'Сайт',
+        print(tabulate(Data, headers=['Id', 'Сайт',
               'Логин', 'Пароль'], tablefmt='rounded_grid')+'\n')

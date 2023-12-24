@@ -1,5 +1,5 @@
-import consts
-import vars
+import ProgramData.consts as consts
+import ProgramData.vars as vars
 if vars.AllowSpecSymbols == True:
     alphabet = consts.AlphabetWithSpecs
 else:
@@ -47,5 +47,16 @@ class Password:
             NewPassword += alphabet.pop()
             alphabet.add(NewPassword[-1])
         return NewPassword
-
+    
+    def ChangeSite(self,NewSite):
+        self.Site=NewSite
+    
+    def ChangeLogin(self,NewLogin):
+        self.Login=NewLogin
+    
+    def ChangePassword(self,NewPassword=None):
+        if NewPassword==None:
+            self.Password=Password._generate_password()
+        else:
+            self.Password=NewPassword
 

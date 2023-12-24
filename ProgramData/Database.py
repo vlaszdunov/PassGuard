@@ -1,6 +1,6 @@
 import json
 import os
-from Password import Password
+from ProgramData.Password import Password
 
 
 class DataBase:
@@ -9,7 +9,7 @@ class DataBase:
     @staticmethod
     def __init__() -> None:
         if os.path.exists(r'ProgramData/Data.json') == False:
-            file=open(r'ProgramData/Data.json', 'w')
+            file = open(r'ProgramData/Data.json', 'w')
             file.write(json.dumps({"Data": []}))
             file.close()
 
@@ -19,21 +19,33 @@ class DataBase:
                 DataRow['Id'], DataRow['Site'], DataRow['Login'], DataRow['Password']))
         file.close()
 
-    def CreateDataObject(newsite, newlogin, password):
-        if len(DataBase.Data) == 0:
-            DataBase.Data.append(Password(0, newsite, newlogin, password))
+    def CreateDataObject(newsite, newlogin, password=None):
+        if password == None:
+            if len(DataBase.Data) == 0:
+                DataBase.Data.append(Password(0, newsite, newlogin))
+            else:
+                DataBase.Data.append(
+                    Password(DataBase.Data[-1].Id+1, newsite, newlogin))
         else:
-            DataBase.Data.append(
-                Password(DataBase.Data[-1].Id+1, newsite, newlogin, password))
+            if len(DataBase.Data) == 0:
+                DataBase.Data.append(Password(0, newsite, newlogin, password))
+            else:
+                DataBase.Data.append(
+                    Password(DataBase.Data[-1].Id+1, newsite, newlogin, password))
         DataBase.SaveData()
+
+    def DataPreparation():
+        PreparedData = {"Data": []}
+        for DataRow in DataBase.Data:
+            PreparedData['Data'].append(DataRow.__dict__)
+        return PreparedData
 
     def ExportData():
         file = open(r'C:\Users\\'+os.getlogin() +
                     r'\Downloads\ExportedData.json', 'w')
-        PreparedData = {"Data": []}
-        for DataRow in DataBase.Data:
-            PreparedData['Data'].append(DataRow.__dict__)
-        file.write(json.dumps(PreparedData))
+
+        file.write(json.dumps(DataBase.DataPreparation()))
+        file.close()
 
     def DeleteDataObject(DataIndex):
         DataBase.Data['Data'].pop(DataIndex)
@@ -41,8 +53,5 @@ class DataBase:
 
     def SaveData():
         file = open(r'ProgramData/Data.json', 'w')
-        PreparedData = {"Data": []}
-        for DataRow in DataBase.Data:
-            PreparedData['Data'].append(DataRow.__dict__)
-        file.write(json.dumps(PreparedData))
+        file.write(json.dumps(DataBase.DataPreparation()))
         file.close()

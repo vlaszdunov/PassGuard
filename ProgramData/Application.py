@@ -1,6 +1,6 @@
-from Database import DataBase
-from AdditionalClass import Additional
-from Password import Password
+from ProgramData.Database import DataBase
+from ProgramData.AdditionalClass import Additional
+from ProgramData.Password import Password
 import cutie
 import os
 
@@ -16,7 +16,11 @@ class Application:
     """Кнопки при открытой записи пароля"""
 
     DataListButton = ['', '─'*20, 'Назад']
+    MaxSiteLen = 0
     Items = []
+    SelectedDataBaseItem = -1
+    SelectedMenuItem = -1
+    Return = False
 
     @staticmethod
     def __init__() -> None:
@@ -34,10 +38,11 @@ class Application:
         print('')
         print('Главное меню')
         print('─'*30)
-        Application.SelectedMenuItem = cutie.select(
+        Application.SelectedMenuItem = Additional.Select(
             Application.MainMenuButtons)
 
     def ShowData():
+        os.system('cls||clear')
         if len(DataBase.Data) == 0:
             print('╭'+'─'.center(40, '─')+'╮')
             print('│'+' '.center(40, ' ')+'│')
@@ -45,15 +50,29 @@ class Application:
             print('│'+' '.center(40, ' ')+'│')
             print('╰'+'─'.center(40, '─')+'╯')
         else:
+            Application.SelectedDataBaseItem = -1
+            for Row in DataBase.Data:
+                if len(Row.Site) > Application.MaxSiteLen:
+                    Application.MaxSiteLen = len(Row.Site)
             Application.Items = []
             for item in DataBase.Data:
-                Application.Items.append(item.Site+'     '+item.Login)
+                Application.Items.append(
+                    item.Site+' '*(Application.MaxSiteLen-len(item.Site))+'     '+item.Login)
 
-            print('')
-            print('    Сайт'+'     '+'Логин')
+            print('    Сайт'+' '*(Application.MaxSiteLen-4)+'     '+'Логин')
             print('─'*40)
             Application.SelectedDataBaseItem = Additional.Select(
                 Application.Items, Application.DataListButton, [0, 1])
 
     def ShowDataObject():
+        os.system('cls||clear')
         Additional.CreateTable(DataBase.Data[Application.SelectedDataBaseItem])
+
+    def ExportData():
+        DataBase.ExportData()
+        os.system('cls||clear')
+        print('╭'+'─'.center(40, '─')+'╮')
+        print('│'+' '.center(40, ' ')+'│')
+        print('│'+'Экспортировано в Загрузки'.center(40, ' ')+'│')
+        print('│'+' '.center(40, ' ')+'│')
+        print('╰'+'─'.center(40, '─')+'╯')
