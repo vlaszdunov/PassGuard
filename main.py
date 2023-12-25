@@ -98,12 +98,18 @@ while True:
                 Application.Return = True
             case 1:
                 NewSite = input('Введите адрес сайта: ',)
+                while Additional.InputChecker(NewSite, 'is_url') == False:
+                    print('Неправильно введен URL')
+                    NewSite = input('Введите URL в формате example.com: ',)
                 DataBase.Data[Application.SelectedDataBaseItem].ChangeSite(
                     NewSite)
                 DataBase.SaveData()
                 Application.Return = True
             case 2:
                 NewLogin = input('Введите логин: ',)
+                while Additional.InputChecker(NewLogin) == False:
+                    print('Поле "Логин" не может быть пустым!')
+                    NewLogin = input('Введите логин: ',)
                 DataBase.Data[Application.SelectedDataBaseItem].ChangeLogin(
                     NewLogin)
                 DataBase.SaveData()
