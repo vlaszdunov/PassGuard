@@ -1,5 +1,7 @@
 import cutie
 from tabulate import tabulate
+import ProgramData.vars as vars
+import re
 
 
 class Additional:
@@ -55,3 +57,30 @@ class Additional:
         Data = [[Data.Id, Data.Site, Data.Login, Data.Password]]
         print(tabulate(Data, headers=['Id', 'Сайт',
               'Логин', 'Пароль'], tablefmt='rounded_grid')+'\n')
+
+    def InputChecker(InputString, Mode='is_empty'):
+        """
+        Params:
+            Mode (str): режим проверки\
+            is_empty -- проверка на пустоту\
+            length -- проверка на длину строки
+            is_url -- проверка, что строка - url
+        """
+        match Mode:
+            case 'is_empty':
+                if len(InputString) > 0:
+                    return True
+                else:
+                    return False
+            case 'length':
+                if len(InputString) < vars.PassLength:
+                    return False
+                else:
+                    return True
+            case "is_url":
+                url_extract_pattern = "^[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
+                a =len(re.findall(url_extract_pattern, InputString))
+                if a!=0:
+                    return True
+                else:
+                    return False
