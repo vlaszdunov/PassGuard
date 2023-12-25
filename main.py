@@ -9,6 +9,7 @@ DataBase()
 
 while True:
     if Application.Return == False:
+        Application.SelectedDataBaseItem = -1
         if Application.SelectedMenuItem == -1:
             Application.MainMenu()
         match Application.SelectedMenuItem:
