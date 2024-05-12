@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - given-names: vlaszdunov
+title: "datavis"
+date-released: 2022-10-16
+url: "https://github.com/vlaszdunov/PassGuard"
